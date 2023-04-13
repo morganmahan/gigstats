@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/morganmahan/gigstats/internal/stats"
 	"github.com/morganmahan/gigstats/internal/xlsx"
+	"github.com/morganmahan/gigstats/pkg/prettier"
 	"github.com/morganmahan/gigstats/pkg/splitter"
 )
 
@@ -21,7 +23,11 @@ func main() {
 	columns["Who"] = splitter.SplitCommaSeparatedArrayValues(columns["Who"])
 
 	// call stats functions
-	fmt.Println("Number of unique bands seen")
-	uniqueBands := stats.CountUniqueElements(columns["Bands"])
-	fmt.Println(uniqueBands)
+	stat := os.Args[1]
+	switch stat {
+	case "bandsseen":
+		fmt.Println(stats.CountUniqueElements(columns["Bands"]))
+	case "bandcounts":
+		prettier.PrintKeyValueArray(stats.GetOccurences(columns["Bands"]))
+	}
 }
