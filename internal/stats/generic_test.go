@@ -47,7 +47,7 @@ func TestGetGigsForElement(t *testing.T) {
 			{"Band1", "Venue1", "Date1", "Who1"},
 		}) {
 			fmt.Println(result)
-			t.Errorf("Result incorrect")
+			t.Errorf("Incorrect gigs returned for given element")
 		}
 	})
 	t.Run("Return gig for an element occuring once, where its value is in an array", func(t *testing.T) {
@@ -73,7 +73,7 @@ func TestGetGigsForElement(t *testing.T) {
 			{"Band1, Band3", "Venue1", "Date1", "Who1"},
 		}) {
 			fmt.Println(result)
-			t.Errorf("Result incorrect")
+			t.Errorf("Incorrect gigs returned for given element")
 		}
 	})
 	t.Run("Return gigs for an element occuring multiple times, where its value is not in an array", func(t *testing.T) {
@@ -104,7 +104,7 @@ func TestGetGigsForElement(t *testing.T) {
 			{"Band3", "Venue2", "Date3", "Who3"},
 		}) {
 			fmt.Println(result)
-			t.Errorf("Result incorrect")
+			t.Errorf("Incorrect gigs returned for given element")
 		}
 	})
 	t.Run("Return gigs for an element occuring multiple times, where its value is in an array", func(t *testing.T) {
@@ -135,7 +135,7 @@ func TestGetGigsForElement(t *testing.T) {
 			{"Band2", "Venue3", "Date3", "Who3"},
 		}) {
 			fmt.Println(result)
-			t.Errorf("Result incorrect")
+			t.Errorf("Incorrect gigs returned for given element")
 		}
 	})
 }

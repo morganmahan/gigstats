@@ -25,8 +25,8 @@ func TestGetColumns(t *testing.T) {
 				{"Harry"},
 			},
 			Tour: []string{
-				"ABIII",
-				"STWOF",
+				"Abiii",
+				"Stwof",
 			},
 			Hotel: []string{
 				"Novotel",
@@ -78,7 +78,7 @@ func TestGetSheetRows(t *testing.T) {
 			t.Errorf("getSheetRows errored")
 		}
 		if !reflect.DeepEqual(result, expected) {
-			t.Errorf("Rows are incorrect")
+			t.Errorf("GetSheetRows returns incorrect response")
 		}
 	})
 }
@@ -127,7 +127,7 @@ func TestGetColumnsByType(t *testing.T) {
 			t.Errorf("getColumnsByType errored")
 		}
 		if !reflect.DeepEqual(result, expected) {
-			t.Errorf("Columns are incorrect")
+			t.Errorf("GetColumnsByType returns incorrect result")
 		}
 	})
 }

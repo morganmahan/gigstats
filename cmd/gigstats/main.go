@@ -7,7 +7,6 @@ import (
 	"github.com/morganmahan/gigstats/internal/stats"
 	"github.com/morganmahan/gigstats/internal/xlsx"
 	"github.com/morganmahan/gigstats/pkg/prettier"
-	"github.com/morganmahan/gigstats/pkg/splitter"
 )
 
 func main() {
@@ -22,9 +21,9 @@ func main() {
 	stat := os.Args[1]
 	switch stat {
 	case "bandsseen":
-		fmt.Println(stats.CountUniqueElements(splitter.FlattenArray(columns.Bands)))
+		fmt.Println(stats.CountUniqueElements(prettier.FlattenArray(columns.Bands)))
 	case "bandcounts":
-		prettier.PrintKeyValueArray(stats.GetOccurences(splitter.FlattenArray(columns.Bands)))
+		prettier.PrintKeyValueArray(stats.GetOccurences(prettier.FlattenArray(columns.Bands)))
 	case "venuesattended":
 		fmt.Println(stats.CountUniqueElements(columns.Venue))
 	case "venuecounts":

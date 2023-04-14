@@ -40,8 +40,7 @@ func GetGigsForPerson(cols xlsx.GigSheet, person string) [][]string {
 func getOccurencesAsMap(elements []string) map[string]int {
 	seen := map[string]int{}
 	for _, elem := range elements {
-		standardisedElem := prettier.Standardise(elem)
-		seen[standardisedElem] += 1
+		seen[elem] += 1
 	}
 	return seen
 }

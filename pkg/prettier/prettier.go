@@ -15,6 +15,14 @@ func Standardise(s string) string {
 	return strings.Title(strings.ToLower(s))
 }
 
+func StandardiseCommaSeparated(str string) string {
+	strArr := strings.Split(str, ", ")
+	for i, s := range strArr {
+		strArr[i] = Standardise(s)
+	}
+	return strings.Join(strArr, ", ")
+}
+
 func MakeStringArrayCommaSeparatedString(stringArr []string) string {
 	str := ""
 	for _, s := range stringArr {
@@ -42,4 +50,12 @@ func Print2DArray(arr [][]string) {
 		}
 		fmt.Println()
 	}
+}
+
+func FlattenArray(valsToSplit [][]string) []string {
+	vals := []string{}
+	for _, value := range valsToSplit {
+		vals = append(vals, value...)
+	}
+	return vals
 }

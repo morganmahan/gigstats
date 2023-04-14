@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/morganmahan/gigstats/pkg/prettier"
 	"github.com/xuri/excelize/v2"
 )
 
@@ -66,27 +67,27 @@ func checkSheetValidity(rows [][]string) bool {
 
 func appendValuesFromRowToColumns(columnsByType GigSheet, row []string) GigSheet {
 	if row[0] != "" {
-		columnsByType.Bands = append(columnsByType.Bands, strings.Split(row[0], ", "))
+		columnsByType.Bands = append(columnsByType.Bands, strings.Split(prettier.StandardiseCommaSeparated(row[0]), ", "))
 	}
 
 	if row[1] != "" {
-		columnsByType.Venue = append(columnsByType.Venue, row[1])
+		columnsByType.Venue = append(columnsByType.Venue, prettier.Standardise(row[1]))
 	}
 
 	if row[2] != "" {
-		columnsByType.Date = append(columnsByType.Date, row[2])
+		columnsByType.Date = append(columnsByType.Date, prettier.Standardise(row[2]))
 	}
 
 	if row[3] != "" {
-		columnsByType.Who = append(columnsByType.Who, strings.Split(row[3], ", "))
+		columnsByType.Who = append(columnsByType.Who, strings.Split(prettier.StandardiseCommaSeparated(row[3]), ", "))
 	}
 
 	if len(row) > 4 && row[4] != "" {
-		columnsByType.Tour = append(columnsByType.Tour, row[4])
+		columnsByType.Tour = append(columnsByType.Tour, prettier.Standardise(row[4]))
 	}
 
 	if len(row) > 5 && row[5] != "" {
-		columnsByType.Hotel = append(columnsByType.Hotel, row[5])
+		columnsByType.Hotel = append(columnsByType.Hotel, prettier.Standardise(row[5]))
 	}
 
 	return columnsByType
