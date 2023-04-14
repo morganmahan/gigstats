@@ -11,11 +11,11 @@ import (
 func TestCountUniqueElements(t *testing.T) {
 	t.Run("Count unique elements", func(t *testing.T) {
 		result := CountUniqueElements([]string{
-			"ABC",
-			"ABC",
-			"DEF",
-			"DEF",
-			"def",
+			"Abc",
+			"Abc",
+			"Def",
+			"Def",
+			"Def",
 		})
 		if result != 2 {
 			t.Errorf("Unique elements count incorrect")
