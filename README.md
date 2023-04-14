@@ -48,6 +48,8 @@ List details of all gigs seen with a particular person
 
 `stats.getGigsForElement` should take in `[][]string` of rows, rather than working over the columns, as this would allow columns that aren't necessariy filled for each gig to be included in the results. Currently, as the missing values are removed in the columns arrays, the indexes of a particular gig with the index of, say, its corresponding tour name, will not line up.
 
+Move commands from main.go to their own package
+
 - Bands seen at particular festivals
 - How many gigs seen with each person
 - How many gigs at each venue

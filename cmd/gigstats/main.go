@@ -19,7 +19,10 @@ func main() {
 
 	// call stats functions
 	stat := os.Args[1]
-	argument := prettier.Standardise(os.Args[2])
+	var argument string
+	if len(os.Args) > 2 {
+		argument = prettier.Standardise(os.Args[2])
+	}
 	switch stat {
 	case "bandsseen":
 		fmt.Println(stats.CountUniqueElements(prettier.FlattenArray(columns.Bands)))

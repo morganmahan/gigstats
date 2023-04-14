@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/morganmahan/gigstats/internal/xlsx"
+	"github.com/morganmahan/gigstats/pkg/prettier"
 )
 
 func TestCountUniqueElements(t *testing.T) {
@@ -19,6 +20,27 @@ func TestCountUniqueElements(t *testing.T) {
 		})
 		if result != 2 {
 			t.Errorf("Unique elements count incorrect")
+		}
+	})
+}
+
+func TestGetOccurences(t *testing.T) {
+	t.Run("Get how many times each unique element appears", func(t *testing.T) {
+		result := GetOccurences([]string{
+			"Band1",
+			"Band1",
+			"Band2",
+			"Band3",
+			"Band3",
+			"Band4",
+		})
+		if !reflect.DeepEqual(result, []prettier.KeyValue{
+			{Key: "Band1", Value: 2},
+			{Key: "Band3", Value: 2},
+			{Key: "Band2", Value: 1},
+			{Key: "Band4", Value: 1},
+		}) {
+			t.Errorf("Occurences of unique elements incorrectly counted")
 		}
 	})
 }
