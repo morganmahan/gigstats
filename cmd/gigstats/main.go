@@ -19,6 +19,7 @@ func main() {
 
 	// call stats functions
 	stat := os.Args[1]
+	argument := prettier.Standardise(os.Args[2])
 	switch stat {
 	case "bandsseen":
 		fmt.Println(stats.CountUniqueElements(prettier.FlattenArray(columns.Bands)))
@@ -29,10 +30,10 @@ func main() {
 	case "venuecounts":
 		prettier.PrintKeyValueArray(stats.GetOccurences(columns.Venue))
 	case "venuegigs":
-		prettier.Print2DArray(stats.GetGigsForVenue(columns, os.Args[2]))
+		prettier.Print2DArray(stats.GetGigsForVenue(columns, argument))
 	case "bandgigs":
-		prettier.Print2DArray(stats.GetGigsForBand(columns, os.Args[2]))
+		prettier.Print2DArray(stats.GetGigsForBand(columns, argument))
 	case "persongigs":
-		prettier.Print2DArray(stats.GetGigsForPerson(columns, os.Args[2]))
+		prettier.Print2DArray(stats.GetGigsForPerson(columns, argument))
 	}
 }
