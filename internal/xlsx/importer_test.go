@@ -7,28 +7,28 @@ import (
 
 func TestGetColumns(t *testing.T) {
 	t.Run("Happy path", func(t *testing.T) {
-		expected := map[string][]string{
-			"Bands": {
-				"Alter Bridge, Black Stone Cherry",
-				"Black Veil Brides",
+		expected := GigSheet{
+			Bands: [][]string{
+				{"Alter Bridge", "Black Stone Cherry"},
+				{"Black Veil Brides"},
 			},
-			"Venue": {
+			Venue: []string{
 				"Wembley Arena",
 				"Brixton Academy",
 			},
-			"Date": {
+			Date: []string{
 				"29/11/2011",
 				"30/03/2012",
 			},
-			"Who": {
-				"Mum, Alex",
-				"Harry",
+			Who: [][]string{
+				{"Mum", "Alex"},
+				{"Harry"},
 			},
-			"Tour": {
+			Tour: []string{
 				"ABIII",
 				"STWOF",
 			},
-			"Hotel": {
+			Hotel: []string{
 				"Novotel",
 			},
 		}
@@ -73,7 +73,7 @@ func TestGetSheetRows(t *testing.T) {
 				"Test",
 			},
 		}
-		result, err := getSheetRows("../../fixtures/gigs.xlsx")
+		result, err := GetSheetRows("../../fixtures/gigs.xlsx")
 		if err != nil {
 			t.Errorf("getSheetRows errored")
 		}
@@ -85,23 +85,23 @@ func TestGetSheetRows(t *testing.T) {
 
 func TestGetColumnsByType(t *testing.T) {
 	t.Run("Return a map of column names to an array of column cells", func(t *testing.T) {
-		expected := map[string][]string{
-			"Bands": {
-				"Test Band",
+		expected := GigSheet{
+			Bands: [][]string{
+				{"Test Band"},
 			},
-			"Venue": {
+			Venue: []string{
 				"Test Venue",
 			},
-			"Date": {
+			Date: []string{
 				"29/11/2011",
 			},
-			"Who": {
-				"Me",
+			Who: [][]string{
+				{"Me"},
 			},
-			"Tour": {
+			Tour: []string{
 				"Test Tour",
 			},
-			"Hotel": {
+			Hotel: []string{
 				"Test Hotel",
 			},
 		}

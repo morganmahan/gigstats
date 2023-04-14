@@ -29,17 +29,26 @@ Total number of different bands seen (each band counted only once)
 List all bands and number of times seen
 - `bandcounts`
 
+Total number of different venues seen (each venue counted only once)
+- `venuesattended`
+
+List all venues and number of times attended
+- `venuecounts`
+
+List details of all gigs at a particular venue
+- `venuegigs "venuename"`
+
+List details of all gigs for a particular band
+- `bandgigs "bandname"`
+
+List details of all gigs seen with a particular person
+- `persongigs "personname"`
+
 ## Future Improvements / Stats
 
-`stats.GetOccurences` should return a key of the band/venue/whatever element, and a value of an array of each gig that element was a part of.
-From this, add stats for:
-- A rundown of a specific bands gigs
-- A rundown of a specific venues gigs
-- A rundown of a specific persons gigs
+`stats.getGigsForElement` should take in `[][]string` of rows, rather than working over the columns, as this would allow columns that aren't necessariy filled for each gig to be included in the results. Currently, as the missing values are removed in the columns arrays, the indexes of a particular gig with the index of, say, its corresponding tour name, will not line up.
+
 - Bands seen at particular festivals
-
-Other stats
-
 - How many gigs seen with each person
 - How many gigs at each venue
 - How many gigs in each year

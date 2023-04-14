@@ -9,3 +9,11 @@ func SplitCommaSeparatedArrayValues(valsToSplit []string) []string {
 	}
 	return valsSplitByComma
 }
+
+func FlattenArray(valsToSplit [][]string) []string {
+	vals := []string{}
+	for _, value := range valsToSplit {
+		vals = append(vals, value...)
+	}
+	return vals
+}

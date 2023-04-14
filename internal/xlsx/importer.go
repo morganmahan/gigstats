@@ -2,24 +2,34 @@ package xlsx
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/xuri/excelize/v2"
 )
 
-func GetColumns(path string) (map[string][]string, error) {
-	rows, err := getSheetRows(path)
+type GigSheet struct {
+	Bands [][]string
+	Venue []string
+	Date  []string
+	Who   [][]string
+	Tour  []string
+	Hotel []string
+}
+
+func GetColumns(path string) (GigSheet, error) {
+	rows, err := GetSheetRows(path)
 	if err != nil {
-		return map[string][]string{}, err
+		return GigSheet{}, err
 	}
 	cols, err := getColumnsByType(rows)
 	if err != nil {
-		return map[string][]string{}, err
+		return GigSheet{}, err
 	}
 
 	return cols, nil
 }
 
-func getSheetRows(path string) ([][]string, error) {
+func GetSheetRows(path string) ([][]string, error) {
 	sheet, err := excelize.OpenFile(path)
 	if err != nil {
 		return [][]string{}, err
@@ -34,17 +44,10 @@ func getSheetRows(path string) ([][]string, error) {
 	return rows, err
 }
 
-func getColumnsByType(rows [][]string) (map[string][]string, error) {
-	columnsByType := map[string][]string{
-		"Bands": {},
-		"Venue": {},
-		"Date":  {},
-		"Who":   {},
-		"Tour":  {},
-		"Hotel": {},
-	}
+func getColumnsByType(rows [][]string) (GigSheet, error) {
+	columnsByType := GigSheet{}
 	if !checkSheetValidity(rows) {
-		return map[string][]string{}, fmt.Errorf("invalid sheet provided")
+		return GigSheet{}, fmt.Errorf("invalid sheet provided")
 	}
 	for _, row := range rows[1:] {
 		columnsByType = appendValuesFromRowToColumns(columnsByType, row)
@@ -61,29 +64,29 @@ func checkSheetValidity(rows [][]string) bool {
 	return true
 }
 
-func appendValuesFromRowToColumns(columnsByType map[string][]string, row []string) map[string][]string {
+func appendValuesFromRowToColumns(columnsByType GigSheet, row []string) GigSheet {
 	if row[0] != "" {
-		columnsByType["Bands"] = append(columnsByType["Bands"], row[0])
+		columnsByType.Bands = append(columnsByType.Bands, strings.Split(row[0], ", "))
 	}
 
 	if row[1] != "" {
-		columnsByType["Venue"] = append(columnsByType["Venue"], row[1])
+		columnsByType.Venue = append(columnsByType.Venue, row[1])
 	}
 
 	if row[2] != "" {
-		columnsByType["Date"] = append(columnsByType["Date"], row[2])
+		columnsByType.Date = append(columnsByType.Date, row[2])
 	}
 
 	if row[3] != "" {
-		columnsByType["Who"] = append(columnsByType["Who"], row[3])
+		columnsByType.Who = append(columnsByType.Who, strings.Split(row[3], ", "))
 	}
 
 	if len(row) > 4 && row[4] != "" {
-		columnsByType["Tour"] = append(columnsByType["Tour"], row[4])
+		columnsByType.Tour = append(columnsByType.Tour, row[4])
 	}
 
 	if len(row) > 5 && row[5] != "" {
-		columnsByType["Hotel"] = append(columnsByType["Hotel"], row[5])
+		columnsByType.Hotel = append(columnsByType.Hotel, row[5])
 	}
 
 	return columnsByType
