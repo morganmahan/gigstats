@@ -38,5 +38,7 @@ func main() {
 		prettier.Print2DArray(stats.GetGigsForBand(columns, argument))
 	case "persongigs":
 		prettier.Print2DArray(stats.GetGigsForPerson(columns, argument))
+	case "personcounts":
+		prettier.PrintKeyValueArray(stats.GetOccurences(prettier.FlattenArray(columns.Who)))
 	}
 }
