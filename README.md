@@ -49,8 +49,6 @@ List all people and number of times gigs attended with them
 
 ## Future Improvements / Stats
 
-`stats.getGigsForElement` should take in `[][]string` of rows, rather than working over the columns, as this would allow columns that aren't necessariy filled for each gig to be included in the results. Currently, as the missing values are removed in the columns arrays, the indexes of a particular gig with the index of, say, its corresponding tour name, will not line up.
-
 Move commands from main.go to their own package
 
 - Bands seen at particular festivals
@@ -58,3 +56,9 @@ Move commands from main.go to their own package
 - How many gigs in each month irrespective of year
 - How many times stayed at each hotel
 - How many time been to each tour/festival
+
+Import hotel to the correct array index when tour is nil
+
+Can we get all stats without getting both columns and rows?
+
+Update tests

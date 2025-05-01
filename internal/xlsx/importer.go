@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/morganmahan/gigstats/pkg/prettier"
+	"github.com/morganmahan/gigstats/internal/prettier"
+	"github.com/morganmahan/gigstats/internal/types"
 	"github.com/xuri/excelize/v2"
 )
 
@@ -17,20 +18,7 @@ type GigSheet struct {
 	Hotel []string
 }
 
-func GetColumns(path string) (GigSheet, error) {
-	rows, err := GetSheetRows(path)
-	if err != nil {
-		return GigSheet{}, err
-	}
-	cols, err := getColumnsByType(rows)
-	if err != nil {
-		return GigSheet{}, err
-	}
-
-	return cols, nil
-}
-
-func GetSheetRows(path string) ([][]string, error) {
+func GetRows(path string) ([][]string, error) {
 	sheet, err := excelize.OpenFile(path)
 	if err != nil {
 		return [][]string{}, err
@@ -45,18 +33,45 @@ func GetSheetRows(path string) ([][]string, error) {
 	return rows, err
 }
 
-func getColumnsByType(rows [][]string) (GigSheet, error) {
-	columnsByType := GigSheet{}
-	if !checkSheetValidity(rows) {
-		return GigSheet{}, fmt.Errorf("invalid sheet provided")
+func GetGigs(rows [][]string) ([]types.Gig, error) {
+	gigs := make([]types.Gig, len(rows))
+	for i, row := range rows {
+		// first row is headers
+		if i == 0 {
+			continue
+		}
+		// TODO: make tour and hotel import into the correct columns if one is missing
+		// tour := ""
+		// if len(row) > 4 {
+		// 	tour = row[4]
+		// }
+		// hotel := ""
+		// if len(row) > 5 {
+		// 	hotel = row[5]
+		// }
+		gig := types.Gig{
+			Bands: getArrayFromCommaList(row[0]),
+			Venue: row[1],
+			Date:  row[2],
+			Who:   getArrayFromCommaList(row[3]),
+			// Tour:  tour,
+			// Hotel: hotel,
+		}
+		gigs = append(gigs, gig)
 	}
-	for _, row := range rows[1:] {
-		columnsByType = appendValuesFromRowToColumns(columnsByType, row)
-	}
-	return columnsByType, nil
+	return gigs, nil
 }
 
-func checkSheetValidity(rows [][]string) bool {
+func GetColumns(rows [][]string) (GigSheet, error) {
+	cols, err := getColumnsByType(rows)
+	if err != nil {
+		return GigSheet{}, err
+	}
+
+	return cols, nil
+}
+
+func CheckSheetValidity(rows [][]string) bool {
 	headingRow := rows[0]
 	if headingRow[0] != "Bands" || headingRow[1] != "Venue" || headingRow[2] != "Date" ||
 		headingRow[3] != "Who" || headingRow[4] != "Tour" || headingRow[5] != "Hotel" {
@@ -65,9 +80,21 @@ func checkSheetValidity(rows [][]string) bool {
 	return true
 }
 
+func getArrayFromCommaList(s string) []string {
+	return strings.Split(prettier.StandardiseCommaSeparated(s), ", ")
+}
+
+func getColumnsByType(rows [][]string) (GigSheet, error) {
+	columnsByType := GigSheet{}
+	for _, row := range rows[1:] {
+		columnsByType = appendValuesFromRowToColumns(columnsByType, row)
+	}
+	return columnsByType, nil
+}
+
 func appendValuesFromRowToColumns(columnsByType GigSheet, row []string) GigSheet {
 	if row[0] != "" {
-		columnsByType.Bands = append(columnsByType.Bands, strings.Split(prettier.StandardiseCommaSeparated(row[0]), ", "))
+		columnsByType.Bands = append(columnsByType.Bands, getArrayFromCommaList(row[0]))
 	}
 
 	if row[1] != "" {
@@ -79,7 +106,7 @@ func appendValuesFromRowToColumns(columnsByType GigSheet, row []string) GigSheet
 	}
 
 	if row[3] != "" {
-		columnsByType.Who = append(columnsByType.Who, strings.Split(prettier.StandardiseCommaSeparated(row[3]), ", "))
+		columnsByType.Who = append(columnsByType.Who, getArrayFromCommaList(row[3]))
 	}
 
 	if len(row) > 4 && row[4] != "" {

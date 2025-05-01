@@ -32,7 +32,12 @@ func TestGetColumns(t *testing.T) {
 				"Novotel",
 			},
 		}
-		result, err := GetColumns("../../fixtures/gigs.xlsx")
+		// TODO: mock the rows
+		rows, err := GetRows("../../fixtures/gigs.xlsx")
+		if err != nil {
+			t.Errorf("GetRows Errored: %v", err)
+		}
+		result, err := GetColumns(rows)
 		if err != nil {
 			t.Errorf("GetColumns Errored: %d", err)
 		}
@@ -42,7 +47,7 @@ func TestGetColumns(t *testing.T) {
 	})
 }
 
-func TestGetSheetRows(t *testing.T) {
+func TestGetRows(t *testing.T) {
 	t.Run("Return a 2D array of rows", func(t *testing.T) {
 		expected := [][]string{
 			{
@@ -73,9 +78,9 @@ func TestGetSheetRows(t *testing.T) {
 				"Test",
 			},
 		}
-		result, err := GetSheetRows("../../fixtures/gigs.xlsx")
+		result, err := GetRows("../../fixtures/gigs.xlsx")
 		if err != nil {
-			t.Errorf("getSheetRows errored")
+			t.Errorf("GetRows Errored: %v", err)
 		}
 		if !reflect.DeepEqual(result, expected) {
 			t.Errorf("GetSheetRows returns incorrect response")
@@ -134,7 +139,7 @@ func TestGetColumnsByType(t *testing.T) {
 
 func TestCheckSheetValidity(t *testing.T) {
 	t.Run("Return true for a valid sheet", func(t *testing.T) {
-		result := checkSheetValidity([][]string{
+		result := CheckSheetValidity([][]string{
 			{
 				"Bands",
 				"Venue",
@@ -149,7 +154,7 @@ func TestCheckSheetValidity(t *testing.T) {
 		}
 	})
 	t.Run("Return false for an invalid sheet", func(t *testing.T) {
-		result := checkSheetValidity([][]string{
+		result := CheckSheetValidity([][]string{
 			{
 				"Hotel",
 				"Venue",

@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/morganmahan/gigstats/internal/types"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 type KeyValue struct {
@@ -12,7 +16,8 @@ type KeyValue struct {
 }
 
 func Standardise(s string) string {
-	return strings.Title(strings.ToLower(s))
+	caser := cases.Title(language.English)
+	return caser.String(strings.ToLower(s))
 }
 
 func StandardiseCommaSeparated(str string) string {
@@ -37,6 +42,12 @@ func MakeStringArrayCommaSeparatedString(stringArr []string) string {
 func PrintKeyValueArray(a []KeyValue) {
 	for _, elem := range a {
 		fmt.Println(elem.Key + ": " + strconv.Itoa(elem.Value))
+	}
+}
+
+func PrintGigsArray(gigs []types.Gig) {
+	for i, gig := range gigs {
+		fmt.Printf("%d. %s - %s - %s - %s\n", i+1, MakeStringArrayCommaSeparatedString(gig.Bands), gig.Venue, gig.Date, MakeStringArrayCommaSeparatedString(gig.Who))
 	}
 }
 

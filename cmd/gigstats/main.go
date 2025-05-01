@@ -4,16 +4,30 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/morganmahan/gigstats/internal/prettier"
 	"github.com/morganmahan/gigstats/internal/stats"
 	"github.com/morganmahan/gigstats/internal/xlsx"
-	"github.com/morganmahan/gigstats/pkg/prettier"
 )
 
 func main() {
-	// get all column cells keyed by their column name
-	columns, err := xlsx.GetColumns("gigs.xlsx")
+	rows, err := xlsx.GetRows("gigs.xlsx")
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("Error: %v", err)
+		return
+	}
+	if !xlsx.CheckSheetValidity(rows) {
+		fmt.Println("invalid sheet provided")
+		return
+	}
+	// get all column cells keyed by their column name
+	columns, err := xlsx.GetColumns(rows)
+	if err != nil {
+		fmt.Printf("Error: %v", err)
+		return
+	}
+	gigs, err := xlsx.GetGigs(rows)
+	if err != nil {
+		fmt.Printf("Error: %v", err)
 		return
 	}
 
@@ -26,19 +40,19 @@ func main() {
 	switch stat {
 	case "bandsseen":
 		fmt.Println(stats.CountUniqueElements(prettier.FlattenArray(columns.Bands)))
-	case "bandcounts":
-		prettier.PrintKeyValueArray(stats.GetOccurences(prettier.FlattenArray(columns.Bands)))
 	case "venuesattended":
 		fmt.Println(stats.CountUniqueElements(columns.Venue))
+	case "bandcounts":
+		prettier.PrintKeyValueArray(stats.GetOccurences(prettier.FlattenArray(columns.Bands)))
+	case "personcounts":
+		prettier.PrintKeyValueArray(stats.GetOccurences(prettier.FlattenArray(columns.Who)))
 	case "venuecounts":
 		prettier.PrintKeyValueArray(stats.GetOccurences(columns.Venue))
 	case "venuegigs":
-		prettier.Print2DArray(stats.GetGigsForVenue(columns, argument))
+		prettier.PrintGigsArray(stats.GetGigsForVenue(gigs, argument))
 	case "bandgigs":
-		prettier.Print2DArray(stats.GetGigsForBand(columns, argument))
+		prettier.PrintGigsArray(stats.GetGigsForBand(gigs, argument))
 	case "persongigs":
-		prettier.Print2DArray(stats.GetGigsForPerson(columns, argument))
-	case "personcounts":
-		prettier.PrintKeyValueArray(stats.GetOccurences(prettier.FlattenArray(columns.Who)))
+		prettier.PrintGigsArray(stats.GetGigsForPerson(gigs, argument))
 	}
 }
