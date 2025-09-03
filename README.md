@@ -49,15 +49,16 @@ List all people and number of times gigs attended with them
 
 ## Future Improvements / Stats
 
-Move commands from main.go to their own package
-
 - Bands seen at particular festivals
 - How many gigs in each year
 - How many gigs in each month irrespective of year
 - How many times stayed at each hotel
 - How many time been to each tour/festival
 
+Add JSON importing
+
 Import hotel to the correct array index when tour is nil
+- is this possible without being really hacky in xlsx? Maybe just move to json to fix this
 
 Can we get all stats without getting both columns and rows?
 
