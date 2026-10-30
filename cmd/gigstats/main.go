@@ -9,6 +9,7 @@ import (
 	"github.com/morganmahan/gigstats/internal/xlsx"
 )
 
+// main
 func main() {
 	rows, err := xlsx.GetRows("gigs.xlsx")
 	if err != nil {
