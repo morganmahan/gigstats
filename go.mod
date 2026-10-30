@@ -1,10 +1,10 @@
 module github.com/morganmahan/gigstats
 
-go 1.20
+go 1.23
 
 require (
 	github.com/xuri/excelize/v2 v2.7.0
-	golang.org/x/exp v0.0.0-20230321023759-10a507213a29
+	golang.org/x/text v0.7.0
 )
 
 require (
@@ -15,5 +15,4 @@ require (
 	github.com/xuri/nfp v0.0.0-20220409054826-5e722a1d9e22 // indirect
 	golang.org/x/crypto v0.5.0 // indirect
 	golang.org/x/net v0.7.0 // indirect
-	golang.org/x/text v0.7.0 // indirect
 )

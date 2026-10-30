@@ -6,7 +6,7 @@ jobs:
   build_and_test:
     executor:
       name: go/default
-      tag: '1.20'
+      tag: '1.23'
     steps:
       - checkout
       - go/mod-download
