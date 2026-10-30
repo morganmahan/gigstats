@@ -12,8 +12,8 @@ jobs:
       - go/mod-download
       - go/test
       - persist_to_workspace:
-        root: ~/project
-        paths: .
+          root: ~/project
+          paths: .
 
 workflows:
   build_test:
